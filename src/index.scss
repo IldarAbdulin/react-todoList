@@ -1,0 +1,18 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+.home{
+    display: flex;
+    align-items: center;
+    margin-left: 500px;
+    h1 {
+        text-align: center;
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 39px;
+        color: #C9D1D3;
+    }
+}
