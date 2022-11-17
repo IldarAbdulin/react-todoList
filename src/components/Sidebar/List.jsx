@@ -1,21 +1,13 @@
 import './List.scss';
 
-import { useState } from 'react';
-import {Routes, Route, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import {Routes, Route, Link} from 'react-router-dom';
 
 import SidebarItem from './SidebarItem';
-import FolderCircles from './props/FolderCircles';
 import TodoList from '../TodoList/TodoList';
 
 //circle images
-import grayCircle from '../../images/circle-colors/gray.svg'
-import greenCircle from '../../images/circle-colors/green.svg'
 import blueCircle from '../../images/circle-colors/blue.svg'
-import pinkCircle from '../../images/circle-colors/pink.svg'
-import lightGreenCircle from '../../images/circle-colors/lightGreen.svg'
-import violetCircle from '../../images/circle-colors/violet.svg'
-import blackCircle from '../../images/circle-colors/black.svg'
-import orangeCircle from '../../images/circle-colors/orange.svg'
 
 //icons
 import add from '../../images/icons/add.svg'
@@ -31,13 +23,21 @@ function List() {
         if(input) {
             const newItem = {
                 id: Math.floor(Math.random() * 1000),
-                circle: lightGreenCircle,
+                circle: blueCircle,
                 task: userInput,
                 complete: false,
             }
             setTodos([...todos, newItem])
+            localStorage.setItem('tasks', JSON.stringify(([...todos, newItem])))
         }
     }
+    useEffect(() => {
+        const todos = JSON.parse(localStorage.getItem('tasks'))
+        if(todos) {
+            setTodos(todos)
+        }
+    }, [])
+
     const removeTask = (id) => {
         setTodos([...todos.filter(todo => todo.id !== id)])
     }
@@ -56,33 +56,6 @@ function List() {
         }
     }
 
-    const circle = [
-        {
-            circleColor: grayCircle,
-        },
-        {
-            circleColor: greenCircle,
-        },
-        {
-            circleColor: blueCircle,
-        },
-        {
-            circleColor: pinkCircle,
-        },
-        {
-            circleColor: lightGreenCircle,
-        },
-        {
-            circleColor: violetCircle,
-        },
-        {
-            circleColor: blackCircle,
-        },
-        {
-            circleColor: orangeCircle,
-        }
-    ]
-
   return (
     <div style={{display:'flex'}}>
         <div className="sidebar">
@@ -96,7 +69,7 @@ function List() {
             <div className='sidebar__items'>
                 {
                     todos.map((todo) => (
-                        <Link style={{textDecoration:'none', color:'black'}} to='/todolist'>
+                        <Link style={{textDecoration:'none', color:'black'}} to={`${todo.task}/${todo.id}`}>
                             <SidebarItem
                                 key={todo.id}
                                 todo={todo}
@@ -124,15 +97,6 @@ function List() {
                             onKeyDown={handleKeyPress} 
                             placeholder='Название папки'
                         />
-                        <div className='form__colors'>
-                            {
-                                circle.map((col) => (
-                                    <FolderCircles
-                                        circle={col.circleColor}
-                                    />
-                                ))
-                            }
-                        </div>
                         <button>Добавить</button>
                     </form>
                 </div>
@@ -141,16 +105,18 @@ function List() {
         </div>
 
         <div>
-            <Routes>
-                <Route path='todolist' element={
-                    todos.map((todo) => (
-                        <TodoList
-                            nameTodo={todo.task}
-                            todos={todo.id}
-                        />
-                    ))
-                }/>
-            </Routes>
+            {
+                todos.map((todo) => (
+                    <Routes>
+                        <Route path={`${todo.task}/${todo.id}`} element={
+                            <TodoList
+                                key={todo.id}
+                                head={todo.task}
+                            />
+                        }/>
+                    </Routes>
+                ))
+            }
         </div>
     </div>
   )
