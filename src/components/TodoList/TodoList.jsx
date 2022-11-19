@@ -28,6 +28,7 @@ function TodoList({head, createNewTask}) {
   const removeNewTask = (id) => {
     alert('Эта задача будет удалена.')
     setNewTask([...newTask.filter((task) => task.id !== id)])
+    localStorage.setItem('createdNewTask', JSON.stringify(newTask.filter((task) => task.id !== id)))
   }
 
   const handleChange = (e) => {

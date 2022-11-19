@@ -39,7 +39,8 @@ function List() {
     }, [])
 
     const removeTask = (id) => {
-        setTodos([...todos.filter(todo => todo.id !== id)])
+        setTodos([...todos.filter(todo => todo.id !== id)]);
+        localStorage.setItem('tasks', JSON.stringify(todos.filter((todo) => todo.id !== id)))
     }
 
     const handleChange = (e) => {
