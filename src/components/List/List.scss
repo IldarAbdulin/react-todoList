@@ -1,0 +1,35 @@
+.list {
+    margin-bottom: 30px;
+    li {
+        display: flex;
+        align-items: center;
+        padding: 6px 12px;
+        margin-bottom: 5px;
+        cursor: pointer;
+        &.active {
+            background: #fff;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+            border-radius: 4px;
+        }
+        i {
+            display: inline-flex;
+            margin-right: 8px;
+            svg {
+                path {
+                    fill: #7c7c7c
+                }
+            }
+        }
+    }
+    &__add-button {
+        span {
+            line-height: 17px;
+            letter-spacing: 0.15px;
+            color: #767676;
+            transition: .2s;
+            &:hover {
+                color: #424141;
+            }
+        }
+    }
+}

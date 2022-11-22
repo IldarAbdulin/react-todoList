@@ -1,0 +1,36 @@
+.add-list {
+    position: relative;
+    &__popup {
+        position: absolute;
+        padding: 18px;
+        left: -300px;
+        width: 235px;
+        height: 150px;
+        background: #FFFFFF;
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        transition: .4s;
+    }
+    &__popup.active {
+        left: 0px;
+    }
+    .button {
+        margin-top: 15px;
+        width: 100%;
+    }
+    &__popup-colors {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        .badge {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            position: static;
+            border: 2px solid transparent;
+            &.active {
+                border: 2px solid #525252;
+            }
+        }
+    }
+}
