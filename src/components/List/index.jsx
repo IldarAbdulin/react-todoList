@@ -1,8 +1,14 @@
 import './List.scss'
 import cn from 'classnames'
 import Badge from '../Badge'
+import removeSvg from '../../assets/img/remove.svg';
 
-function List({items, isRemovable, onClick}) {
+function List({items, isRemovable, onClick, onRemove}) {
+  const removeList = (item) => {
+    if(window.confirm('Вы уверены что хотите удалить эту папку ?')) {
+      onRemove(item)
+    }
+  }
   return (
     <ul onClick={onClick} className="list">
         {
@@ -15,6 +21,7 @@ function List({items, isRemovable, onClick}) {
                     )}
                 </i>
                 <span>{item.name}</span>
+                {isRemovable && <img onClick={() => removeList(item)} className='list__remove-icon' src={removeSvg} alt="Remove icon"/>}
               </li>
             ))
         }

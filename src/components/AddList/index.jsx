@@ -1,12 +1,30 @@
 import './AddList.scss'
 import List from '../List'
 import Badge from '../Badge'
+import closeSvg from '../../assets/img/close.svg'
 import { useState } from 'react'
 
-function AddButtonList({colors}) {
+function AddButtonList({colors, onAdd}) {
 
   const [visiblePopup, setVisiblePopup] = useState(false);
-  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(colors[0].id);
+  const [inputValue, setInputValue] = useState('');
+
+  const onClose = () => {
+    setVisiblePopup(false)
+    setInputValue('')
+    setSelectedColor(colors[0].id)
+  }
+
+  const addTask = () => {
+    if(!inputValue) {
+      alert('Строка не может быть пустой')
+      return; 
+    }
+    const color = colors.filter(c => c.id === selectedColor)[0].name;
+    onAdd({ id: Math.random(), name: inputValue, color: color})
+    onClose()
+  }
 
   return (
     <div className='add-list'>
@@ -23,7 +41,14 @@ function AddButtonList({colors}) {
         ]}
         />    
           <div className={visiblePopup ? 'add-list__popup active' : 'add-list__popup'}>
-              <input type="text" placeholder='Название папки' className='field'/>
+              <input 
+                value={inputValue} 
+                onChange={e => setInputValue(e.target.value)}
+                type="text" 
+                placeholder='Название папки' 
+                className='field'
+              />
+              <img onClick={onClose} src={closeSvg} className='add-list__popup-close-btn'/>
               <div className="add-list__popup-colors">
                   {
                     colors.map((color) => (
@@ -36,7 +61,7 @@ function AddButtonList({colors}) {
                     ))
                   }
               </div>
-              <button className='button'>Добавить</button>
+              <button onClick={addTask} className='button'>Добавить</button>
           </div>
     </div>
   )

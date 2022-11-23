@@ -1,4 +1,11 @@
 {
+    "lists": [
+        {"id": 1, "name": "Покупки", "colorId": 5},
+        {"id": 2, "name": "Фронтенд", "colorId": 4},
+        {"id": 3, "name": "Фильмы и сериалы", "colorId": 3},
+        {"id": 4, "name": "Книги", "colorId": 2},
+        {"id": 5, "name": "Личное", "colorId": 1}
+    ],
     "colors": [
         {"id": 1, "hex": "#C9D1D3", "name": "grey"},
         {"id": 2, "hex": "#42B883", "name": "green"},

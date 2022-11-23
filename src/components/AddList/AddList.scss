@@ -1,5 +1,10 @@
 .add-list {
     position: relative;
+    &__popup-close-btn {
+        position: absolute;
+        top: -5px;
+        cursor: pointer;
+    }
     &__popup {
         position: absolute;
         padding: 18px;
