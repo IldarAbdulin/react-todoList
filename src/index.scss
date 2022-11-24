@@ -10,12 +10,8 @@
 }
 
 .todo {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 750px;
-    height: 530px;
-    transform: translate(-50%, -50%);
+    display: flex;
+    height: 100vh;
     box-shadow: 1px 2px 20px #f3f3f3;
     border-radius: 10px;
     border: 1px solid #f1f1f1;
@@ -25,11 +21,16 @@
     &__sidebar {
         padding: 60px 20px;
         background: #f2f5f9;
-        width: 250px;
+        width: 300px;
         height: 100%;
         border-right: 1px solid #f1f1f1;
     }
+    &__tasks {
+        flex: 1;
+        padding: 60px 100px;
+    }
 }
+
 
 .field {
     width: 100%;
