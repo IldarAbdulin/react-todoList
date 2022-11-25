@@ -1,14 +1,25 @@
 import './AddList.scss'
+
 import List from '../List'
 import Badge from '../Badge'
-import closeSvg from '../../assets/img/close.svg'
-import { useState } from 'react'
 
-function AddButtonList({colors, onAdd}) {
+import closeSvg from '../../assets/img/close.svg'
+
+import { useState, useEffect} from 'react'
+import axios from 'axios'
+
+function AddList({colors, onAdd}) {
 
   const [visiblePopup, setVisiblePopup] = useState(false);
-  const [selectedColor, setSelectedColor] = useState(colors[0].id);
+  const [selectedColor, setSelectedColor] = useState(1);
+  const [isLoading, setIsLoading] = useState(false)
   const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    if(Array.isArray(colors)) {
+      setSelectedColor(colors[0].id)
+    }
+  }, [colors])
 
   const onClose = () => {
     setVisiblePopup(false)
@@ -21,9 +32,19 @@ function AddButtonList({colors, onAdd}) {
       alert('Строка не может быть пустой')
       return; 
     }
-    const color = colors.filter(c => c.id === selectedColor)[0].name;
-    onAdd({ id: Math.random(), name: inputValue, color: color})
-    onClose()
+    setIsLoading(true)
+    axios
+      .post('http://localhost:3001/lists', {name: inputValue, colorId: selectedColor})
+      .then(({data}) => {
+        const color = colors.filter(c => c.id === selectedColor)[0].name;
+        const listObj = {...data, color: {name: color}}
+        onAdd(listObj)
+        console.log(data)
+        onClose()
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
   return (
@@ -48,10 +69,10 @@ function AddButtonList({colors, onAdd}) {
                 placeholder='Название папки' 
                 className='field'
               />
-              <img onClick={onClose} src={closeSvg} className='add-list__popup-close-btn'/>
+              <img onClick={onClose} src={closeSvg} className='add-list__popup-close-btn' alt='close icon'/>
               <div className="add-list__popup-colors">
                   {
-                    colors.map((color) => (
+                    colors && colors.map((color) => (
                       <Badge 
                         onClick={() => setSelectedColor(color.id)} 
                         key={color.id} 
@@ -61,9 +82,11 @@ function AddButtonList({colors, onAdd}) {
                     ))
                   }
               </div>
-              <button onClick={addTask} className='button'>Добавить</button>
+              <button onClick={addTask} className='button'>
+                  {isLoading ? 'Добавление...'  : 'Добавить'}
+              </button>
           </div>
     </div>
   )
 }
-export default AddButtonList
+export default AddList
