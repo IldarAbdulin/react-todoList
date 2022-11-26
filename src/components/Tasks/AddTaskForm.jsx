@@ -15,6 +15,10 @@ function AddTaskForm({list, onAddTask}) {
   }
 
   const addTask = () => {
+    if(!inputValue) {
+      alert('Строка не может быть пустой')
+      return; 
+    }
     const obj = {
       listId: list.id,
       text: inputValue,
@@ -23,7 +27,6 @@ function AddTaskForm({list, onAddTask}) {
     setIsLoading(true)
     axios.post('http://localhost:3001/tasks', obj)
     .then(({ data }) => {
-      console.log(data)
       onAddTask(list.id, data)
       toggleFormVisible()
     })
